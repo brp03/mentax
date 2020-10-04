@@ -30,6 +30,8 @@ use function Symfony\Component\String\u;
  */
 class PostRepository extends ServiceEntityRepository
 {
+    const PAGE_SIZE = 3;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);
@@ -51,7 +53,7 @@ class PostRepository extends ServiceEntityRepository
                 ->setParameter('tag', $tag);
         }
 
-        return (new Paginator($qb))->paginate($page);
+        return (new Paginator($qb, self::PAGE_SIZE))->paginate($page);
     }
 
     /**
