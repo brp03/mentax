@@ -11,6 +11,7 @@
 
 namespace App\Entity;
 
+use App\Counter\ViewCountable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -33,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
  * @author Yonel Ceruto <yonelceruto@gmail.com>
  */
-class Post
+class Post implements ViewCountable
 {
     /**
      * Use constants to define configuration options that rarely change instead
@@ -122,6 +123,13 @@ class Post
      * @Assert\Count(max="4", maxMessage="post.too_many_tags")
      */
     private $tags;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(type="integer", options={"default":0})
+     */
+    private $views;
 
     public function __construct()
     {
@@ -230,5 +238,20 @@ class Post
     public function getTags(): Collection
     {
         return $this->tags;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): void
+    {
+        $this->views = $views;
+    }
+
+    public function incrementViews()
+    {
+        $this->views += 1;
     }
 }

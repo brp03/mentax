@@ -35,3 +35,8 @@ services:
     # 'arguments' key and define the arguments just below the service class
     App\EventSubscriber\CommentNotificationSubscriber:
         $sender: '%app.notifications.email_sender%'
+
+    App\Counter\ViewCounter:
+        arguments:
+            - '@App\Counter\SessionViewCounterHandler'
+            - '@doctrine.orm.entity_manager'

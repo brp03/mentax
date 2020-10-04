@@ -11,6 +11,7 @@
 
 namespace App\Controller;
 
+use App\Counter\ViewCounter;
 use App\Entity\Comment;
 use App\Entity\Post;
 use App\Events\CommentCreatedEvent;
@@ -70,7 +71,7 @@ class BlogController extends AbstractController
      * value given in the route.
      * See https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/annotations/converters.html
      */
-    public function postShow(Post $post): Response
+    public function postShow(Post $post, ViewCounter $counter): Response
     {
         // Symfony's 'dump()' function is an improved version of PHP's 'var_dump()' but
         // it's not available in the 'prod' environment to prevent leaking sensitive information.
@@ -78,7 +79,7 @@ class BlogController extends AbstractController
         // have enabled the DebugBundle. Uncomment the following line to see it in action:
         //
         // dump($post, $this->getUser(), new \DateTime());
-
+        $counter->count($post);
         return $this->render('blog/post_show.html.twig', ['post' => $post]);
     }
 
