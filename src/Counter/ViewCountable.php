@@ -6,7 +6,15 @@ namespace App\Counter;
 
 interface ViewCountable
 {
+    /**
+     * Get entity identifier
+     * @return mixed
+     */
     public function getId();
 
-    public function incrementViews();
+    /**
+     * Increases the number of views
+     * @return mixed
+     */
+    public function incrementViews(): void;
 }

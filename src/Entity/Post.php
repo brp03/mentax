@@ -250,7 +250,7 @@ class Post implements ViewCountable
         $this->views = $views;
     }
 
-    public function incrementViews()
+    public function incrementViews(): void
     {
         $this->views += 1;
     }

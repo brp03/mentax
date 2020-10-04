@@ -8,26 +8,40 @@ use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class SessionViewCounterHandler implements ViewCounterHandler
 {
+    /**
+     * Session name
+     */
+    const COUNTER_KEY = 'counters';
+
     private $session;
+    /**
+     * @var array
+     */
+    private $counters;
 
     public function __construct(SessionInterface $session)
     {
         $this->session = $session;
+        $this->counters = $this->session->get(self::COUNTER_KEY, []);
     }
 
-    public function isCountable(ViewCountable $entity): bool
+    public function isViewed(ViewCountable $entity): bool
     {
-        $counters = $this->session->get('counters', []);
         $class = get_class($entity);
 
-        if(!empty($counters[$class]) && in_array($entity->getId(), $counters[$class])) {
+        if(!empty($this->counters[$class]) && in_array($entity->getId(), $this->counters[$class])) {
             return false;
         }
 
-        $counters[$class][] = $entity->getId();
-        $this->session->set('counters', $counters);
-
         return true;
+    }
 
+    public function setViewed(ViewCountable $entity): void
+    {
+        $class = get_class($entity);
+
+        $this->counters[$class][] = $entity->getId();
+
+        $this->session->set(self::COUNTER_KEY, $this->counters);
     }
 }
