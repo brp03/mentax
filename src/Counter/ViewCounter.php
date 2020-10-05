@@ -23,7 +23,7 @@ class ViewCounter
      */
     public function count(ViewCountable $entity)
     {
-        if ($this->handler->isViewed($entity)) {
+        if (!$this->handler->isViewed($entity)) {
             $entity->incrementViews();
             $this->em->persist($entity);
             $this->em->flush();

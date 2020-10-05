@@ -30,10 +30,10 @@ class SessionViewCounterHandler implements ViewCounterHandler
         $class = get_class($entity);
 
         if(!empty($this->counters[$class]) && in_array($entity->getId(), $this->counters[$class])) {
-            return false;
+            return true;
         }
 
-        return true;
+        return false;
     }
 
     public function setViewed(ViewCountable $entity): void
